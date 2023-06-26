@@ -4,13 +4,13 @@ import NutritionChart from "./Charts";
 import { colorVariants } from "../assets/constants";
 
 const NutritionDetails = (props) =>{
-  console.log(props.data)
+  // console.log(props.data)
     return(
-      <div className={`flex flex-col es:flex-row md:flex-col w-full justify-center 
+      <div className={`flex flex-col es:flex-col md:flex-col w-full justify-center 
           items-center mb-6 py-4`}
           >
             {props?.data?.nutrients?.carbohydrates?.amount ?
-              (<div className={`${props.showNutrientTarget? "w-1/2" : "w-full es:w-1/2 md:w-full" } pl-4`}>
+              (<div className={`${props.showNutrientTarget? " md:w-3/4 lg:w-1/2" : " md:w-full" } w-full es:w-1/2 pl-4`}>
                 <h2 className="font-mono tracking-wider text-center text-lg">
                   NUTRIENT PERCENTAGE
                 </h2>

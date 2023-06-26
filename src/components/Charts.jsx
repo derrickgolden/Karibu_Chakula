@@ -24,8 +24,7 @@ import {
 
 const NutritionChart = (props) =>{
     const nutrientKeys = ["carbohydrates", "fat", "protein"]
-    console.log(props)
-
+    // console.log(props)
     return(
         <Pie data = {{
             labels: nutrientKeys.map((key, i) => props.data.nutrients[key].nutrient),
