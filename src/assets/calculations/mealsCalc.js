@@ -15,7 +15,7 @@ export function nutritionCalc(meals){
         lunch:{calories: 0, incCalories:false },
         dinner:{calories: 0, incCalories:false },
     }
-console.log(meals)
+// console.log(meals)
     Object.keys(meals).forEach((key, i) =>{
         meals[key]?.forEach((recipe, i)=>{
             const cal = recipe?.nutrition?.calories

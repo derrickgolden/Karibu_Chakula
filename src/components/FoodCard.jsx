@@ -12,7 +12,7 @@ const FoodCard = (props) =>{
     const foodCardRef = useRef(0)
     const foodCardPst = useRef({})
 
-    const [absoluteLeftRight, setAbsoluteLeftRight] = useState({right: false, center: {"margin-top": `35px`}})
+    const [absoluteLeftRight, setAbsoluteLeftRight] = useState({right: false, center: {"marginTop": `35px`}})
     const [absoluteBottomTop, setAbsoluteBottomTop] = useState({value: {bottom: "0px"}})
 
     const showFoodDetails = useContext(FoodDetailsContext)?.showFoodDetails
@@ -38,7 +38,7 @@ const FoodCard = (props) =>{
     const handleFoodSummaryCardRightLeft = (e) =>{
         const {width: domWidth, height } = foodCardRef.current.getBoundingClientRect();
         setAbsoluteLeftRight({right: domWidth/2 > e.clientX, 
-        center: {"margin-top": `${(height/2)-9}px`}});
+        center: {"marginTop": `${(height/2)-9}px`}});
         // console.log(height)
     }
 

@@ -48,7 +48,7 @@ const FoodSummaryCard = (props) =>{
                 <hr className="my-4"/>
             <div>
                { props?.food?.sections?.[0]?.components?.map((ings, i) =>(
-                <div className="flex py-0 ">
+                <div key={i} className="flex py-0 ">
                     
                     <p className="text-lightOrange pr-2">
                         <span>{(ings?.measurements?.[0]?.quantity)?.replace(" ", "")}</span>

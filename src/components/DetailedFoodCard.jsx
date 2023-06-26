@@ -22,7 +22,7 @@ const DetailedFoodCard = (props) =>{
 
     // get specified food nutrition data.
     const nutritionData = nutritionCalc({breakfast: [props?.food]})
-    console.log(nutritionData)
+    // console.log(nutritionData)
 
     return(
         <div className="relative bg-clearWhite rounded-md p-4 pt-0 overflow-y-scroll max-h-[90vh]">
@@ -48,9 +48,10 @@ const DetailedFoodCard = (props) =>{
                                 let contents;
                                 if(el.nodeName == "A"){
                                     contents = [<a href={el.href} 
+                                        key={i} target="_blank"
                                         className="text-darkGray underline" >{el.textContent}</a>]
                                 }else{
-                                    contents = [<span>{el.textContent}</span>];
+                                    contents = [<span key={i} >{el.textContent}</span>];
                                 }
                                 return [contents]
                                 })
@@ -77,13 +78,14 @@ const DetailedFoodCard = (props) =>{
                             </span>
                         </p>
                         <div className="pt-4">
-                            <table>
-                                <caption className="caption-top text-left tracking-wide pl-4 font-mono">Ingredients:</caption>
-                                {props.food?.sections?.map((section, i) =>(
-                                <>
-                                <thead>
+                            <span className="caption-top text-left tracking-wide pl-4 font-mono">
+                                Ingredients:
+                            </span>
+                            {props.food?.sections?.map((section, i) =>(
+                            <table key={i} className="pt-4">
+                                <thead >
                                     <tr>
-                                        <th colspan="2" className="tracking-wider ">{section.name}</th>
+                                        <th colSpan="2" className="tracking-wider ">{section.name}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -105,9 +107,8 @@ const DetailedFoodCard = (props) =>{
                                         ))
                                     }
                                 </tbody>
-                                </>
-                                ))}
                             </table>
+                            ))}
                         </div>
                     </div>
                     <div>
@@ -123,7 +124,7 @@ const DetailedFoodCard = (props) =>{
                         <table>
                             <tbody>
                                 {props?.food?.instructions?.map((instruction,i)=>(
-                                    <tr className="border-b border-b-lightOrange px-4 ">
+                                    <tr key={i} className="border-b border-b-lightOrange px-4 ">
                                         <td className="md:w-20 text-center">
                                             {`Step ${instruction?.position}`}
                                         </td>

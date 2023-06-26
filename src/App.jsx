@@ -27,7 +27,7 @@ function App() {
   const [foodDetails, setFoodDetails] = useState({})
 
   const onHandleFoodDetails = (foodDetails) => {
-    console.log(foodDetails)
+    // console.log(foodDetails)
     setFoodDetails(foodDetails)
     setShowFoodDetails(true)
   }

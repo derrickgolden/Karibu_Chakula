@@ -24,7 +24,7 @@ const NutritionDetails = (props) =>{
               <table className="table-fixed   ">
                 <thead>
                   <tr className="text-left h-12 ">
-                    <th colspan="2" className=" font-mono" >Current Totals</th>
+                    <th colSpan="2" className=" font-mono" >Current Totals</th>
                     {props.showNutrientTarget? 
                         <th className="pl-6 font-mono border-left border-white ">
                             Targets
