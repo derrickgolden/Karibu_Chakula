@@ -1,8 +1,6 @@
-import { useEffect, useState, useContext, createContext } from "react";
 import { AiOutlineReload, AiOutlineDownload, AiOutlineCopy} from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs"
 
-import store from "../../store";
 import { connect } from 'react-redux';
 
 import { recipeList } from "../actions/recipeListAction";

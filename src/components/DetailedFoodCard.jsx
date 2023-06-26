@@ -11,14 +11,14 @@ import NutritionDetails from "./NutritionDetails";
 import { nutritionCalc } from "../assets/calculations/mealsCalc";
 
 const DetailedFoodCard = (props) =>{
-    console.log(props)
+    // console.log(props)
     const setShowFoodDetails = useContext(FoodDetailsContext)?.setShowFoodDetails
 
     // parse description from string to DOM
     const parser = new DOMParser();
     const doc1 = parser.parseFromString(props?.food?.description, "text/html");
     const htmlSections= doc1.body.childNodes
-    console.log(htmlSections)
+    // console.log(htmlSections)
 
     // get specified food nutrition data.
     const nutritionData = nutritionCalc({breakfast: [props?.food]})

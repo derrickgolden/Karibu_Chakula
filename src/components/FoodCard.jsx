@@ -80,7 +80,7 @@ const FoodCard = (props) =>{
                 <FoodSummaryCard food={props.food} 
                     data= { props?.data } />
                 <div className={`absolute md:-left-[10px] md:arrowLeft  
-                ${absoluteLeftRight.right? "-left-[10px] arrowLeft " :"-right-[10px] arrowRight md:border-l-0 "} `}
+                ${absoluteLeftRight.right? "-left-[8px] arrowLeft " :"-right-[8px] arrowRight md:border-l-0 "} `}
                 style={ Object.assign({}, absoluteBottomTop.arrow, absoluteLeftRight.center)}>  
                 </div>
             </div>
