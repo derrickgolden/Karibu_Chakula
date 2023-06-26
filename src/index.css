@@ -1,0 +1,26 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --blue: #1e90ff;
+    --white: #ffffff;
+  }
+
+@layer components{
+  .arrowRight{
+    width: 0;
+	height: 0;
+	border-top: 10px solid transparent;
+	border-left: 10px solid theme('colors.darkBlack');
+	border-bottom: 10px solid transparent;
+  }
+  .arrowLeft{
+    width: 0;
+	height: 0;
+	border-top: 10px solid transparent;
+	border-right: 10px solid theme('colors.darkBlack');
+	border-bottom: 10px solid transparent;
+  }
+}
