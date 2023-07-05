@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 import { AiOutlineReload, AiOutlineDownload, AiOutlineCopy} from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs"
 
@@ -44,11 +46,78 @@ const DayDate = (props) =>(
     </div>
 )
 
-const Meals = (props) =>{
-    const date = props.dates.mealsDate
-    const isLoading = props.loadingData[LOADING_WHOLE_DAY]
+const DisplayMeals = ({newDate, selectedMealsAvailable, onHandleReloadDayMeal,
+                        selectedMeals, date, selectMeals, nutritionData, 
+                        loadingData, onHandleDragStartDrop}) =>(
+    <>
+        <DayDate newDate={newDate} 
+                selectedMealsAvailable= {selectedMealsAvailable} 
+                onHandleReloadDayMeal = {onHandleReloadDayMeal}/>
+        <div className="flex flex-col-reverse gap-2 md:flex-row w-full bg-slate-600 p-4">
+            <div className="flex flex-col w-full md:min-w-1/2 space-y-2">
+                { (Object.keys(mealTimeDetails)).map((mealTime, i) =>(
+                    <MealCard key = {i}
+                        meals = {selectedMeals?.[mealTime]}
+                        mealDate = {date}
+                        mealTime= { mealTime }
+                        selectMeals= {selectMeals}
+                        calories = { nutritionData?.[mealTime]?.calories }
+                        loadingData = {loadingData}
+                        data= { nutritionData }
+                        onHandleDragStartDrop = { onHandleDragStartDrop }
+                    />
+                ))}
+            </div>
 
-    const selectedMealsAvailable = ( props?.selectedMeals?.breakfast
+            <div className="min-w-1/2">
+                <CaloriesCard data= { nutritionData } />
+            </div>
+        </div>
+    </>
+)
+
+const DisplayLoadPage = ({newDate, loadingData, onHandleGenerateDay}) =>{
+    const isLoading = loadingData[LOADING_WHOLE_DAY]
+
+    return(
+        <div className="flex flex-col justify-center items-center px-2">
+            <DayDate newDate={newDate} />
+            <div className="flex flex-col justify-center items-center bg-lightOrange
+                w-full md:w-1/2 py-8 px-2 text-center rounded-md gap-4 mt-8 ">
+                <h2 className="text-2xl text-darkBlack">
+                    Meals for today have not been generated yet.
+                </h2>
+                <button className="flex justify-center items-center gap-2 text-textRed
+                    border border-textRed px-4 py-2 rounded-sm text-lg tracking-wide
+                    hover:text-textWhite hover:bg-mediumOrange hover:border-mediumOrange"
+                    disabled={isLoading}
+                    onClick={() =>{ onHandleGenerateDay() }} >
+                    {isLoading ? <UseAnimations animation = {loading} /> : <AiOutlineReload />}
+                    Generate
+                </button>
+                <button className="flex justify-center items-center gap-2 border border-darkGray
+                    border-opacity px-4 py-2 rounded-sm hover:text-textWhite hover:bg-darkGray"
+                    onClick={() =>{}}>
+                    <AiOutlineCopy />
+                    Use the previous meal plan
+                </button>
+                <button className="flex justify-center items-center gap-2 border border-darkBlack
+                    px-4 py-2 rounded-sm hover:text-textWhite hover:bg-darkGray"
+                    onClick={() =>{}}>
+                    <AiOutlineDownload />
+                    Load saved meal plan
+                </button>
+            </div>
+        </div>
+    )
+}
+
+const Meals = (props) =>{
+    const dragEnterFood = useRef()
+
+    const date = props.dates.mealsDate
+
+    const selectedMealsAvailable = ( props?.selectedMeals?.breakfast.length
             || props?.selectedMeals?.lunch.length 
             || props?.selectedMeals?.dinner.length ) ? true : false 
      
@@ -68,75 +137,60 @@ const Meals = (props) =>{
         const newSelectedMeals = mealsSelect(getRecipeData.recipes)
         props.selectMeals(null, date, newSelectedMeals )
     }
+    const handleDragStartDrop = (dom, drop) =>{
+        if(drop){
+            let y ={};
+            Object.keys(props?.selectedMeals).map((key,i)=>{
+                props.selectedMeals[key].map((food, index) =>{
+                    if(food == dom){
+                        y.start = {key, index}
+                    }
+                    if(food == dragEnterFood.current){
+                        y.end = {key, index}
+                    }
+                })
+            })
 
+            let SM = props?.selectedMeals;
+            const draggedFood = SM[y.start.key][y.start.index]
+            const dragOverFood = SM[y.end.key][y.end.index]
+            SM[y.end.key].splice(y.end.index, 1, draggedFood)
+            SM[y.start.key].splice(y.start.index, 1, dragOverFood)
+            props.selectMeals(null, date, SM )
+        }else{
+            dragEnterFood.current = dom
+        }
+    }
+
+    
     return(
-        
-            <div className="flex flex-col ">
-                {
+        <div className="flex flex-col ">
+            {
                 selectedMealsAvailable ?
                     (
-                        <>
-                            <DayDate newDate={newDate} 
-                                    selectedMealsAvailable= {selectedMealsAvailable} 
-                                    onHandleReloadDayMeal = {handleReloadDayMeal}/>
-                            <div className="flex flex-col-reverse gap-2 md:flex-row w-full bg-slate-600 p-4">
-                                <div className="flex flex-col w-full md:min-w-1/2 space-y-2">
-                                    { (Object.keys(mealTimeDetails)).map((mealTime, i) =>(
-                                        <MealCard key = {i}
-                                            meals = {props?.selectedMeals?.[mealTime]}
-                                            mealDate = {date}
-                                            mealTime= { mealTime }
-                                            selectMeals= {selectMeals}
-                                            calories = { nutritionData?.[mealTime]?.calories }
-                                            loadingData = {props.loadingData}
-                                            data= { nutritionData }
-                                        />
-                                    ))}
-                                </div>
-                
-                                <div className="min-w-1/2">
-                                    <CaloriesCard data= { nutritionData } />
-                                </div>
-                            </div>
-                        </>
+                        <DisplayMeals 
+                            newDate={newDate}
+                            selectedMealsAvailable= {selectedMealsAvailable} 
+                            onHandleReloadDayMeal = {handleReloadDayMeal}
+                            selectedMeals = {props?.selectedMeals}
+                            date = {date}
+                            selectMeals = {props.selectMeals}
+                            nutritionData={nutritionData}
+                            loadingData = {props.loadingData}
+                            onHandleDragStartDrop = { handleDragStartDrop }
+                        />
                     ) :
                     (
-                        <div className="flex flex-col justify-center items-center px-2">
-                            <DayDate newDate={newDate} />
-                            <div className="flex flex-col justify-center items-center bg-lightOrange
-                                w-full md:w-1/2 py-8 px-2 text-center rounded-md gap-4 mt-8 ">
-                                <h2 className="text-2xl text-darkBlack">
-                                    Meals for today have not been generated yet.
-                                </h2>
-                                <button className="flex justify-center items-center gap-2 text-textRed
-                                    border border-textRed px-4 py-2 rounded-sm text-lg tracking-wide
-                                    hover:text-textWhite hover:bg-mediumOrange hover:border-mediumOrange"
-                                    disabled={isLoading}
-                                    onClick={() =>{ handleGenerateDay() }} >
-                                    {isLoading ? <UseAnimations animation = {loading} /> : <AiOutlineReload />}
-                                    Generate
-                                </button>
-                                <button className="flex justify-center items-center gap-2 border border-darkGray
-                                    border-opacity px-4 py-2 rounded-sm hover:text-textWhite hover:bg-darkGray"
-                                    onClick={() =>{}}>
-                                    <AiOutlineCopy />
-                                    Use the previous meal plan
-                                </button>
-                                <button className="flex justify-center items-center gap-2 border border-darkBlack
-                                    px-4 py-2 rounded-sm hover:text-textWhite hover:bg-darkGray"
-                                    onClick={() =>{}}>
-                                    <AiOutlineDownload />
-                                    Load saved meal plan
-                                </button>
-                            </div>
-                        </div>
+                        <DisplayLoadPage 
+                            newDate={newDate}
+                            loadingData = {props.loadingData}
+                            onHandleGenerateDay = {handleGenerateDay}
+                        />
                     )
                 }
                 {
-                }
-                
-            </div>
-        
+            }       
+        </div>    
     )
 }
 
@@ -148,10 +202,6 @@ Meals.propTypes ={
   }
 
 const mapStateToProps = state =>{
-    // localStorage.clear()
-    // state.recipes.breakfastList.results.map((res) =>{
-    //     console.log(res.credits)
-    // })
     updateLocalStorage(state)
     return {
         recipes: state.recipes, 

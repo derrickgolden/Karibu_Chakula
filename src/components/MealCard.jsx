@@ -50,6 +50,7 @@ const MealCard = (props) =>{
                             handleReloadFood = { onHandleReloadFood }
                             food={meal} 
                             data= { props?.data }
+                            onHandleDragStartDrop = { props?.onHandleDragStartDrop }
                         />
                     )
                 ) : (

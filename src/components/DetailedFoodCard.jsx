@@ -1,5 +1,5 @@
 
-import { useContext, } from "react";
+import { useContext, Fragment } from "react";
 
 import { AiOutlineLike, AiOutlineReload, AiOutlineDislike, 
     AiOutlineClose, AiOutlineStar, AiOutlinePushpin,
@@ -81,8 +81,9 @@ const DetailedFoodCard = (props) =>{
                             <span className="caption-top text-left tracking-wide pl-4 font-mono">
                                 Ingredients:
                             </span>
+                            <table className="pt-4">
                             {props.food?.sections?.map((section, i) =>(
-                            <table key={i} className="pt-4">
+                                <Fragment key={i} >
                                 <thead >
                                     <tr>
                                         <th colSpan="2" className="tracking-wider ">{section.name}</th>
@@ -107,8 +108,9 @@ const DetailedFoodCard = (props) =>{
                                         ))
                                     }
                                 </tbody>
-                            </table>
+                                </Fragment>
                             ))}
+                            </table>
                         </div>
                     </div>
                     <div>
