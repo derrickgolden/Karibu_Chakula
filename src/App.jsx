@@ -6,7 +6,6 @@ import SideBar from "./components/SideBar"
 import Header from "./components/Header"
 
 import { Provider } from 'react-redux'
-import axios from 'axios';
 import { useEffect, useState, useContext, createContext } from "react";
 
 import DetailedFoodCard from "../src/components/DetailedFoodCard";
@@ -27,42 +26,9 @@ function App() {
   const [foodDetails, setFoodDetails] = useState({})
 
   const onHandleFoodDetails = (foodDetails) => {
-    // console.log(foodDetails)
     setFoodDetails(foodDetails)
     setShowFoodDetails(true)
   }
-
-const options = {
-  method: 'GET',
-  url: 'https://tasty.p.rapidapi.com/tags/list',
-  headers: {
-    'X-RapidAPI-Key': '8a1b25b181msh8d25ac03aeb2cf9p15185ejsncc89decba8a9',
-    'X-RapidAPI-Host': 'tasty.p.rapidapi.com'
-  }
-};
-
-
-// try {
-//   const response = axios.request(options);
-//   response.then (({data}) =>{
-//     localStorage.setItem("tags", JSON.stringify(data))
-//     data?.results?.map((tag, i) =>{
-
-//       console.log(i, tag.name)
-//     })
-    
-//   })
-// } catch (error) {
-//     console.error(error);
-// }
-
-// const tagsData = JSON.parse(localStorage.getItem("tags"));
-// tagsData?.results?.map((tag, i)=>{
-//   if(tag.name.includes("africa")){
-//     console.log(tag.name)
-//   }
-// })
-// console.log(tagsData)
 
   return (
     <Provider store={store}>

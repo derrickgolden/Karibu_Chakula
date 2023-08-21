@@ -4,6 +4,8 @@ import { AiOutlineReload,  } from "react-icons/ai";
 import UseAnimations from 'react-useanimations';
 import loading from 'react-useanimations/lib/loading'
 
+import Skeleton from "@mui/material/Skeleton/";
+
 import { selectMeals } from "../actions/selectMealsAction";
 import { recipeList } from "../actions/recipeListAction";
 
@@ -54,22 +56,32 @@ const MealCard = (props) =>{
                         />
                     )
                 ) : (
-                    <div>
-                        <h2 className="text-lg text-darkBlack">
-                                <span className="capitalize">{props.mealTime} </span>
-                                 meal has not been generated yet.
-                        </h2>
-                        <button className="flex justify-center items-center gap-2 text-darkGray
-                            border border-mediumOrange px-2 py-1 rounded-md text-lg tracking-wide
-                            hover:text-textWhite hover:bg-mediumOrange hover:border-mediumOrange"
-                            onClick={() => handleGenerateMeal() }
-                            disabled =  {isLoading}
-                            >
-                                { isLoading ? <UseAnimations animation = {loading} /> : 
-                                    <AiOutlineReload /> }
-                            Generate
-                        </button>
+                    <div className="flex flex-col gap-2">
+                        <div className="flex flex-row items-center w-[80%] gap-2">
+                            <Skeleton variant="rounded" width={64} height={64} />
+                            <Skeleton variant="rounded" animation="wave" width={200} height={60} />
+                        </div>
+                        <div className="flex flex-row items-center w-[80%] gap-2">
+                            <Skeleton variant="rounded" width={64} height={64} />
+                            <Skeleton variant="rounded" animation="wave" width={200} height={64} />
+                        </div>
                     </div>
+                    // <div>
+                    //     <h2 className="text-lg text-darkBlack">
+                    //             <span className="capitalize">{props.mealTime} </span>
+                    //              meal has not been generated yet.
+                    //     </h2>
+                    //     <button className="flex justify-center items-center gap-2 text-darkGray
+                    //         border border-mediumOrange px-2 py-1 rounded-md text-lg tracking-wide
+                    //         hover:text-textWhite hover:bg-mediumOrange hover:border-mediumOrange"
+                    //         onClick={() => handleGenerateMeal() }
+                    //         disabled =  {isLoading}
+                    //         >
+                    //             { isLoading ? <UseAnimations animation = {loading} /> : 
+                    //                 <AiOutlineReload /> }
+                    //         Generate
+                    //     </button>
+                    // </div>
                 )}               
             </div>
         </div>
