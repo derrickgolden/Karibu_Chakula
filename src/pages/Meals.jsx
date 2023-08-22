@@ -52,7 +52,7 @@ const DisplayMeals = ({newDate, selectedMealsAvailable, onHandleReloadDayMeal,
 
 const Meals = (props) =>{
     const dragEnterFood = useRef()
-    const [prevProps, setPrevProps] = useState(props)
+    const [prevProps, setPrevProps] = useState(props?.dates?.mealsDate)
     const newSelectedMealsAvailable = (
         props?.selectedMeals?.breakfast.length || 
         props?.selectedMeals?.lunch.length || 
@@ -62,9 +62,9 @@ const Meals = (props) =>{
         newSelectedMealsAvailable
     ) 
 
-    if(prevProps !== props){
+    if(prevProps !== props?.dates?.mealsDate){
         console.log(props)
-        setPrevProps(props)
+        setPrevProps(props?.dates?.mealsDate)
         setSelectedMealsAvailable(
             newSelectedMealsAvailable
         )
@@ -74,6 +74,7 @@ const Meals = (props) =>{
 
     const nutritionData = nutritionCalc(props?.selectedMeals)
     const newDate = getDateDetails(new Date(date))
+    console.log("rendering", selectedMealsAvailable)
 
     const handleGenerateDay = () =>{
         //setting load whole day for the first one will serve for whole of them
