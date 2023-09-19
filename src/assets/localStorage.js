@@ -1,6 +1,4 @@
 
-import { getDateDetails } from "./calculations/dateCalc"
-
 export function updateLocalStorage(state){
     const date = state?.dates?.mealsDate
 
